@@ -9,14 +9,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class GerenciarClientesController implements Initializable {
@@ -38,7 +41,7 @@ public class GerenciarClientesController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         carregarClientes();
-        
+
         // Listener para seleção na lista
         listViewClientes.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -107,10 +110,18 @@ public class GerenciarClientesController implements Initializable {
             return;
         }
 
-        DatabaseManager.deleteCliente(clienteSelecionado.getId());
-        mostrarAlerta("Sucesso", "Cliente excluído com sucesso!");
-        limparCampos();
-        carregarClientes();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmação de Exclusão");
+        alert.setHeaderText("Excluir Cliente");
+        alert.setContentText("Tem certeza que deseja excluir o cliente " + clienteSelecionado.getNome() + "? Todas as listas de compras associadas também serão excluídas.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            DatabaseManager.deleteCliente(clienteSelecionado.getId());
+            mostrarAlerta("Sucesso", "Cliente excluído com sucesso!");
+            limparCampos();
+            carregarClientes();
+        }
     }
 
     @FXML
@@ -124,18 +135,47 @@ public class GerenciarClientesController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/consultoria/imagem/montar-lista.fxml"));
             Scene scene = new Scene(loader.load());
-            
-            // Passar o cliente selecionado para o controlador da nova tela
+
             MontarListaController controller = loader.getController();
             controller.setCliente(clienteSelecionado);
-            
+            controller.setListaDeCompras(null); // Indica que é uma nova lista
+
             Stage stage = new Stage();
-            stage.setTitle("Montar Lista para " + clienteSelecionado.getNome());
+            stage.setTitle("Montar Nova Lista para " + clienteSelecionado.getNome());
             stage.setScene(scene);
-            stage.show();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarAlerta("Erro", "Erro ao abrir a tela de montagem de lista!");
+            mostrarAlerta("Erro", "Erro ao abrir a tela de montagem de lista!\n" + e.getMessage());
+        }
+    }
+
+    @FXML
+    private void gerenciarListasDoCliente() {
+        Cliente clienteSelecionado = listViewClientes.getSelectionModel().getSelectedItem();
+        if (clienteSelecionado == null) {
+            mostrarAlerta("Aviso", "Selecione um cliente para gerenciar suas listas!");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/consultoria/imagem/gerenciar-listas.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            GerenciarListasController controller = loader.getController();
+            controller.setCliente(clienteSelecionado);
+
+            Stage stage = new Stage();
+            stage.setTitle("Gerenciar Listas de " + clienteSelecionado.getNome());
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Erro", "Erro ao abrir a tela de gerenciamento de listas!\n" + e.getMessage());
         }
     }
 
@@ -156,4 +196,3 @@ public class GerenciarClientesController implements Initializable {
         alert.showAndWait();
     }
 }
-

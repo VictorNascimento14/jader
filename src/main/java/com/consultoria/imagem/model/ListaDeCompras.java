@@ -7,20 +7,33 @@ import java.util.List;
 public class ListaDeCompras {
     private int id;
     private Cliente cliente;
+    private String nome; // Novo campo para o nome da lista
     private LocalDate dataCriacao;
     private List<Peca> pecas;
 
-    public ListaDeCompras(int id, Cliente cliente, LocalDate dataCriacao, List<Peca> pecas) {
+    // Construtor completo
+    public ListaDeCompras(int id, String nome, Cliente cliente, LocalDate dataCriacao, List<Peca> pecas) {
         this.id = id;
+        this.nome = nome;
         this.cliente = cliente;
         this.dataCriacao = dataCriacao;
         this.pecas = pecas;
     }
 
-    public ListaDeCompras(Cliente cliente, LocalDate dataCriacao) {
+    // Construtor para nova lista (sem ID e com nome)
+    public ListaDeCompras(String nome, Cliente cliente, LocalDate dataCriacao) {
+        this.nome = nome;
         this.cliente = cliente;
         this.dataCriacao = dataCriacao;
         this.pecas = new ArrayList<>();
+    }
+
+    // Construtor para nova lista (sem ID, nome e peças)
+    public ListaDeCompras(String nome, Cliente cliente, LocalDate dataCriacao, List<Peca> pecas) {
+        this.nome = nome;
+        this.cliente = cliente;
+        this.dataCriacao = dataCriacao;
+        this.pecas = pecas;
     }
 
     // Getters e Setters
@@ -38,6 +51,14 @@ public class ListaDeCompras {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public LocalDate getDataCriacao() {
@@ -66,8 +87,6 @@ public class ListaDeCompras {
 
     @Override
     public String toString() {
-        return "Lista para " + cliente.getNome() + " em " + dataCriacao.toString();
+        return nome + " (" + dataCriacao.toString() + ")";
     }
 }
-
-

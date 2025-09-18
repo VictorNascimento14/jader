@@ -7,6 +7,7 @@ com\consultoria\imagem\model\Peca.class
 com\consultoria\imagem\util\PDFGenerator.class
 module-info.class
 com\consultoria\imagem\controller\DashboardController.class
+com\consultoria\imagem\controller\GerenciarListasController.class
 com\consultoria\imagem\model\Loja.class
 com\consultoria\imagem\controller\GerenciarClientesController.class
 com\consultoria\imagem\controller\GerenciarLojasController.class
