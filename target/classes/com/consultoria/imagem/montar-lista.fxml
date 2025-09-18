@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.consultoria.imagem.controller.MontarListaController">
+   <top>
+      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #f39c12;">
+         <children>
+            <Label fx:id="lblTitulo" text="Montando Lista para Cliente" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+         </padding>
+      </VBox>
+   </top>
+   <center>
+      <HBox spacing="20.0">
+         <children>
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="Catálogo de Peças Disponíveis:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtBuscarPeca" promptText="Buscar peça..." />
+                  <ListView fx:id="listViewCatalogo" prefHeight="400.0" prefWidth="350.0" />
+                  <Button fx:id="btnAdicionarPeca" mnemonicParsing="false" onAction="#adicionarPecaALista" style="-fx-background-color: #27ae60; -fx-text-fill: white;" text="&gt;&gt; Adicionar à Lista" />
+               </children>
+            </VBox>
+            <VBox spacing="10.0">
+               <children>
+                  <Label text="Lista de Compras do Cliente:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblTotalValor" text="Total: R$ 0,00">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="listViewLista" prefHeight="400.0" prefWidth="350.0" />
+                  <HBox spacing="10.0">
+                     <children>
+                        <Button fx:id="btnRemoverPeca" mnemonicParsing="false" onAction="#removerPecaDaLista" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Remover" />
+                        <Button fx:id="btnSalvarLista" mnemonicParsing="false" onAction="#salvarLista" style="-fx-background-color: #3498db; -fx-text-fill: white;" text="Salvar Lista" />
+                        <Button fx:id="btnGerarPDF" mnemonicParsing="false" onAction="#gerarPDF" style="-fx-background-color: #9b59b6; -fx-text-fill: white;" text="Gerar PDF" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </HBox>
+   </center>
+</BorderPane>
+

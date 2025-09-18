@@ -1,0 +1,4 @@
+--patch-module
+consultoria.imagem.app=_
+--add-reads
+consultoria.imagem.app=ALL-UNNAMED

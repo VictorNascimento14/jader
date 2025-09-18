@@ -1,0 +1,13 @@
+com\consultoria\imagem\model\ListaDeCompras.class
+com\consultoria\imagem\App.class
+com\consultoria\imagem\model\Cliente.class
+com\consultoria\imagem\controller\GerenciarPecasController.class
+com\consultoria\imagem\util\DatabaseManager.class
+com\consultoria\imagem\model\Peca.class
+com\consultoria\imagem\util\PDFGenerator.class
+module-info.class
+com\consultoria\imagem\controller\DashboardController.class
+com\consultoria\imagem\model\Loja.class
+com\consultoria\imagem\controller\GerenciarClientesController.class
+com\consultoria\imagem\controller\GerenciarLojasController.class
+com\consultoria\imagem\controller\MontarListaController.class
