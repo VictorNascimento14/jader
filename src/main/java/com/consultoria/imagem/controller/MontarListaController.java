@@ -74,9 +74,9 @@ public class MontarListaController implements Initializable {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
         lblTitulo.setText("Montando Lista para: " + cliente.getNome());
-        // Se não for uma lista existente, inicializa uma nova
+        // Inicializa uma nova lista se ainda não existir
         if (listaAtual == null) {
-            listaAtual = new ListaDeCompras("Nova Lista", cliente, LocalDate.now());
+            criarNovaListaParaCliente();
         }
     }
 
@@ -89,6 +89,122 @@ public class MontarListaController implements Initializable {
         } else {
             // Se for uma nova lista, setCliente já inicializa
             btnSalvarLista.setText("Salvar Nova Lista");
+        }
+    }
+
+    // -----------------------------
+    // NOVOS MÉTODOS PARA EVITAR NULL
+    // -----------------------------
+
+    /**
+     * Cria uma nova lista para o cliente, garantindo que listaAtual não seja null
+     */
+    public void criarNovaListaParaCliente() {
+        if (cliente == null) return; // Não criar sem cliente definido
+        listaAtual = new ListaDeCompras("Nova Lista", cliente, LocalDate.now());
+    }
+
+    /**
+     * Adiciona peça à lista garantindo que listaAtual exista
+     */
+    @FXML
+    private void adicionarPecaALista() {
+        if (listaAtual == null) {
+            criarNovaListaParaCliente();
+        }
+
+        Peca pecaSelecionada = listViewCatalogo.getSelectionModel().getSelectedItem();
+        if (pecaSelecionada == null) {
+            mostrarAlerta("Aviso", "Selecione uma peça do catálogo para adicionar!");
+            return;
+        }
+
+        if (pecasNaLista.contains(pecaSelecionada)) {
+            mostrarAlerta("Aviso", "Esta peça já está na lista!");
+            return;
+        }
+
+        pecasNaLista.add(pecaSelecionada);
+        listaAtual.addPeca(pecaSelecionada);
+    }
+
+    @FXML
+    private void removerPecaDaLista() {
+        if (listaAtual == null) return; // Segurança extra
+
+        Peca pecaSelecionada = listViewLista.getSelectionModel().getSelectedItem();
+        if (pecaSelecionada == null) {
+            mostrarAlerta("Aviso", "Selecione uma peça da lista para remover!");
+            return;
+        }
+
+        pecasNaLista.remove(pecaSelecionada);
+        listaAtual.removePeca(pecaSelecionada);
+    }
+
+    @FXML
+    private void salvarLista() {
+        if (listaAtual == null) {
+            mostrarAlerta("Erro", "Não há lista para salvar!");
+            return;
+        }
+
+        if (pecasNaLista.isEmpty()) {
+            mostrarAlerta("Aviso", "Adicione pelo menos uma peça à lista antes de salvar!");
+            return;
+        }
+
+        listaAtual.setPecas(new ArrayList<>(pecasNaLista));
+
+        if (listaAtual.getId() == 0) { // Nova lista
+            TextInputDialog dialog = new TextInputDialog("Nova Lista");
+            dialog.setTitle("Nome da Lista");
+            dialog.setHeaderText("Dê um nome para esta lista de compras:");
+            dialog.setContentText("Nome:");
+
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent() && !result.get().trim().isEmpty()) {
+                listaAtual.setNome(result.get().trim());
+                DatabaseManager.addListaDeCompras(listaAtual);
+                mostrarAlerta("Sucesso", "Lista salva com sucesso!");
+                ((Stage) lblTitulo.getScene().getWindow()).close();
+            } else {
+                mostrarAlerta("Aviso", "O nome da lista não pode ser vazio!");
+            }
+        } else { // Editando lista existente
+            DatabaseManager.updateListaDeCompras(listaAtual);
+            mostrarAlerta("Sucesso", "Lista atualizada com sucesso!");
+            ((Stage) lblTitulo.getScene().getWindow()).close();
+        }
+    }
+
+    @FXML
+    private void gerarPDF() {
+        if (listaAtual == null || pecasNaLista.isEmpty()) {
+            mostrarAlerta("Aviso", "Adicione pelo menos uma peça à lista antes de gerar o PDF!");
+            return;
+        }
+
+        listaAtual.setPecas(new ArrayList<>(pecasNaLista));
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Salvar PDF");
+        fileChooser.setInitialFileName("Lista_" + listaAtual.getNome().replace(" ", "_") + "_" + cliente.getNome().replace(" ", "_") + ".pdf");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+        );
+
+        Stage stage = (Stage) lblTitulo.getScene().getWindow();
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            try {
+                PDFGenerator.gerarPDF(listaAtual, file.getAbsolutePath());
+                mostrarAlerta("Sucesso", "PDF gerado com sucesso em: " + file.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+                mostrarAlerta("Erro", "Erro ao gerar PDF: " + e.getMessage());
+            }
         }
     }
 
@@ -111,97 +227,6 @@ public class MontarListaController implements Initializable {
 
         ObservableList<Peca> observableList = FXCollections.observableArrayList(pecasFiltradas);
         listViewCatalogo.setItems(observableList);
-    }
-
-    @FXML
-    private void adicionarPecaALista() {
-        Peca pecaSelecionada = listViewCatalogo.getSelectionModel().getSelectedItem();
-        if (pecaSelecionada == null) {
-            mostrarAlerta("Aviso", "Selecione uma peça do catálogo para adicionar!");
-            return;
-        }
-
-        if (pecasNaLista.contains(pecaSelecionada)) {
-            mostrarAlerta("Aviso", "Esta peça já está na lista!");
-            return;
-        }
-
-        pecasNaLista.add(pecaSelecionada);
-        listaAtual.addPeca(pecaSelecionada);
-    }
-
-    @FXML
-    private void removerPecaDaLista() {
-        Peca pecaSelecionada = listViewLista.getSelectionModel().getSelectedItem();
-        if (pecaSelecionada == null) {
-            mostrarAlerta("Aviso", "Selecione uma peça da lista para remover!");
-            return;
-        }
-
-        pecasNaLista.remove(pecaSelecionada);
-        listaAtual.removePeca(pecaSelecionada);
-    }
-
-    @FXML
-    private void salvarLista() {
-        if (pecasNaLista.isEmpty()) {
-            mostrarAlerta("Aviso", "Adicione pelo menos uma peça à lista antes de salvar!");
-            return;
-        }
-
-        if (listaAtual.getId() == 0) { // Nova lista
-            TextInputDialog dialog = new TextInputDialog("Nova Lista");
-            dialog.setTitle("Nome da Lista");
-            dialog.setHeaderText("Dê um nome para esta lista de compras:");
-            dialog.setContentText("Nome:");
-
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent() && !result.get().trim().isEmpty()) {
-                listaAtual.setNome(result.get().trim());
-                listaAtual.setPecas(new ArrayList<>(pecasNaLista)); // Garante que a lista de peças está atualizada
-                DatabaseManager.addListaDeCompras(listaAtual);
-                mostrarAlerta("Sucesso", "Lista salva com sucesso!");
-                ((Stage) lblTitulo.getScene().getWindow()).close(); // Fecha a tela após salvar
-            } else {
-                mostrarAlerta("Aviso", "O nome da lista não pode ser vazio!");
-            }
-        } else { // Editando lista existente
-            listaAtual.setPecas(new ArrayList<>(pecasNaLista)); // Garante que a lista de peças está atualizada
-            DatabaseManager.updateListaDeCompras(listaAtual);
-            mostrarAlerta("Sucesso", "Lista atualizada com sucesso!");
-            ((Stage) lblTitulo.getScene().getWindow()).close(); // Fecha a tela após salvar
-        }
-    }
-
-    @FXML
-    private void gerarPDF() {
-        if (pecasNaLista.isEmpty()) {
-            mostrarAlerta("Aviso", "Adicione pelo menos uma peça à lista antes de gerar o PDF!");
-            return;
-        }
-
-        // Garante que a listaAtual tem as peças mais recentes antes de gerar o PDF
-        listaAtual.setPecas(new ArrayList<>(pecasNaLista));
-
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Salvar PDF");
-        fileChooser.setInitialFileName("Lista_" + listaAtual.getNome().replace(" ", "_") + "_" + cliente.getNome().replace(" ", "_") + ".pdf");
-        fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
-        );
-
-        Stage stage = (Stage) lblTitulo.getScene().getWindow();
-        File file = fileChooser.showSaveDialog(stage);
-
-        if (file != null) {
-            try {
-                PDFGenerator.gerarPDF(listaAtual, file.getAbsolutePath());
-                mostrarAlerta("Sucesso", "PDF gerado com sucesso em: " + file.getAbsolutePath());
-            } catch (Exception e) {
-                e.printStackTrace();
-                mostrarAlerta("Erro", "Erro ao gerar PDF: " + e.getMessage());
-            }
-        }
     }
 
     private void atualizarTotal() {
