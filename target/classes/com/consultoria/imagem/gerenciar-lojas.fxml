@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.consultoria.imagem.controller.GerenciarLojasController">
+<BorderPane xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.consultoria.imagem.controller.GerenciarLojasController">
    <top>
-      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #27ae60;">
+      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #172940;">
          <children>
             <Label text="Gerenciar Lojas" textFill="WHITE">
                <font>
@@ -76,4 +76,3 @@
       </HBox>
    </center>
 </BorderPane>
-

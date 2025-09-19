@@ -130,7 +130,7 @@ public class PDFGenerator {
             if (peca.getLoja().getEndereco() != null && !peca.getLoja().getEndereco().trim().isEmpty()) {
                 contentStream.beginText();
                 contentStream.setFont(PDType1Font.HELVETICA, FONT_SIZE_NORMAL);
-                contentStream.newLineAtOffset(MARGIN + 40, yPosition);
+                contentStream.newLineAtOffset(MARGIN + 20, yPosition);
                 contentStream.showText("Endereço: " + peca.getLoja().getEndereco());
                 contentStream.endText();
                 yPosition -= LINE_HEIGHT;

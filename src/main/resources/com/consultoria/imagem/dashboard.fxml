@@ -7,22 +7,29 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.consultoria.imagem.controller.DashboardController">
    <top>
-      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #172940;">
+      <VBox alignment="CENTER" prefHeight="208.0" prefWidth="995.0" spacing="10.0" style="-fx-background-color: #172940;">
          <children>
-            <Label text="Consultoria de Imagem" textFill="WHITE">
+            <Label prefHeight="44.0" prefWidth="418.0" style="-fx-font-family: sans-serif; -fx-font-size: 40;" text="Consultoria de Imagem" textFill="WHITE">
                <font>
-                  <Font name="Serif Bold" size="24.0" />
+                  <Font name="Microsoft JhengHei UI" size="24.0" />
                </font>
             </Label>
-            <Label text="Jader Átila" textFill="#ecf0f1">
+            <Label prefHeight="10.0" prefWidth="97.0" text="Jader Átila" textFill="#dacf6c">
                <font>
-                  <Font name="Serif Bold" size="22.0" />
+                  <Font name="Tahoma Bold" size="18.0" />
                </font>
             </Label>
+            <Text fill="#bfbfbf" strokeType="OUTSIDE" strokeWidth="0.0" text="Transformando estilos, construindo confiança">
+               <font>
+                  <Font name="Tahoma" size="14.0" />
+               </font>
+            </Text>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -30,29 +37,39 @@
       </VBox>
    </top>
    <center>
-      <VBox alignment="CENTER" spacing="30.0" style="-fx-background-color: #044040;">
+      <VBox alignment="CENTER" spacing="30.0" style="-fx-background-color: linear-gradient(to right top, #2c3342, #2e3648, #303a4e, #333d55, #35405b, #36425f, #384563, #394767, #39496a, #3a4b6c, #3a4d6f, #3a4f71);;">
          <children>
             <HBox alignment="CENTER" spacing="30.0">
                <children>
-                  <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #BDD4F2; -fx-background-radius: 5;">
+                  <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 6;">
                      <children>
-                        <Button fx:id="btnGerenciarClientes" mnemonicParsing="false" onAction="#abrirGerenciarClientes" prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-size: 16px; -fx-font-weight: bold;" text="Gerenciar Clientes" />
+                        <Circle fill="#092e52c2" radius="12.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Button fx:id="btnGerenciarClientes" mnemonicParsing="false" onAction="#abrirGerenciarClientes" prefHeight="40.0" prefWidth="169.0" style="-fx-background-color: transparent; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: arial;" text="Gerenciar Clientes " textFill="#252b4de6" />
+                        <Text fill="#4d4b4bcc" strokeType="OUTSIDE" strokeWidth="0.0" text="Cadastre e gerencie seu portfólio de clientes" wrappingWidth="242.92578125">
+                           <font>
+                              <Font name="SansSerif Regular" size="12.0" />
+                           </font>
+                        </Text>
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </VBox>
-                  <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #BDD4F2; -fx-background-radius: 5;">
+                  <VBox alignment="CENTER" prefHeight="197.0" prefWidth="272.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 6;">
                      <children>
-                        <Button fx:id="btnGerenciarPecas" mnemonicParsing="false" onAction="#abrirGerenciarPecas" prefHeight="81.0" prefWidth="226.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-size: 16px; -fx-font-weight: bold;" text="Gerenciar Peças (Catálogo)" />
+                        <Circle fill="#092e52c2" radius="12.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Button fx:id="btnGerenciarPecas" mnemonicParsing="false" onAction="#abrirGerenciarPecas" prefHeight="40.0" prefWidth="231.0" style="-fx-background-color: transparent; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: arial;" text="Gerenciar Peças (Catálogo)" textFill="#252b4de3" />
+                        <Text fill="#4d4b4bcb" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: sans-serif; -fx-font-size: 12;" text="Organize seu catálogo de roupas e acessórios" wrappingWidth="255.728515625" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </VBox>
-                  <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #BDD4F2; -fx-background-radius: 5;">
+                  <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 6;">
                      <children>
-                        <Button fx:id="btnGerenciarLojas" mnemonicParsing="false" onAction="#abrirGerenciarLojas" prefHeight="80.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-text-fill: black; -fx-font-size: 16px; -fx-font-weight: bold;" text="Gerenciar Lojas" />
+                        <Circle fill="#092e52c3" radius="12.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Button fx:id="btnGerenciarLojas" graphicTextGap="3.0" mnemonicParsing="false" onAction="#abrirGerenciarLojas" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: transparent; -fx-font-size: 16px; -fx-font-weight: bold; -fx-font-family: arial;" text="Gerenciar Lojas" textFill="#252b4de5" />
+                        <Text fill="#4d4b4bcc" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: sans-serif;" text="Administre suas lojas parceiras e fornecedores" wrappingWidth="255.08984375" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -67,7 +84,7 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <ListView fx:id="listViewUltimasListas" prefHeight="200.0" prefWidth="600.0" style="-fx-background-color: #BDD4F2; -fx-background-radius: 5;" />
+                  <ListView fx:id="listViewUltimasListas" prefHeight="200.0" prefWidth="600.0" style="-fx-background-color: white; -fx-background-radius: 5;" />
                </children>
             </VBox>
          </children>
