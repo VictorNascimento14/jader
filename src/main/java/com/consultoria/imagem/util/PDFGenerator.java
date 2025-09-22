@@ -189,11 +189,6 @@ public class PDFGenerator {
         contentStream.endText();
         yPosition -= LINE_HEIGHT;
 
-        contentStream.beginText();
-        contentStream.setFont(PDType1Font.HELVETICA, FONT_SIZE_NORMAL);
-        contentStream.newLineAtOffset(MARGIN, yPosition);
-        contentStream.showText("Sistema de Gestão - Consultoria de Imagem");
-        contentStream.endText();
 
         contentStream.close();
         document.save(caminhoArquivo);

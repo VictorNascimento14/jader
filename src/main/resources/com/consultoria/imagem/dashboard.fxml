@@ -21,7 +21,7 @@
                <children>
                   <ImageView fitHeight="229.0" fitWidth="381.0" pickOnBounds="true" preserveRatio="true" style="-fx-translate-x: 1; -fx-scale-x: 1;">
                      <image>
-                        <Image url="@/imagens/1.png" />
+                        <Image url="@../../../imagens/1.png" />
                      </image>
                      <HBox.margin>
                         <Insets />
@@ -96,9 +96,9 @@
             </VBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <ImageView fitHeight="137.0" fitWidth="260.0" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="137.0" fitWidth="260.0" opacity="0.15" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/imagens/2.png" />
+                        <Image url="@../../../imagens/2.png" />
                      </image>
                   </ImageView>
                </children>
